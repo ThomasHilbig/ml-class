@@ -12,7 +12,8 @@ run = wandb.init()
 config = run.config
 config.optimizer = "adam"
 config.epochs = 50
-config.dropout = 0.4
+#we want to zero out 40% of our inputs... 20-50% dropout is what is normally used...  Going to make 40% of them equal to 0 randomly.. 
+config.dropout = 0.3
 config.hidden_nodes = 100
 
 # load data
@@ -38,6 +39,10 @@ model.add(Flatten(input_shape=(img_width,img_height)))
 model.add(Dropout(config.dropout))
 model.add(Dense(config.hidden_nodes, activation='relu'))
 model.add(Dropout(config.dropout))
+#Round 2
+model.add(Dense(config.hidden_nodes, activation='relu'))
+
+
 model.add(Dense(num_classes, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=config.optimizer,
                     metrics=['accuracy'])

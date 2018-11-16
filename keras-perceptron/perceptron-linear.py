@@ -25,7 +25,10 @@ num_classes = y_train.shape[1]
 # create model
 model = Sequential()
 model.add(Flatten(input_shape=(img_width, img_height)))
-model.add(Dense(num_classes))
+# original: 
+# model.add(Dense(num_classes))
+# Version with Sigmoid activation... Improves accuracy by ~35% it seems
+model.add(Dense(num_classes, activation="sigmoid"))
 model.compile(loss='mse', optimizer='adam',
               metrics=['accuracy'])
 

@@ -2,7 +2,6 @@ from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Flatten
 from keras.utils import to_categorical
-
 import wandb
 from wandb.keras import WandbCallback
 
