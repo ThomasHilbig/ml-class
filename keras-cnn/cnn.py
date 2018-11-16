@@ -33,13 +33,31 @@ y_test = np_utils.to_categorical(y_test)
 num_classes = y_test.shape[1]
 labels=range(10)
 
+#add dropout config
+config.dropout = 0.4
+
+
 # build model
 model = Sequential()
+model.add(Conv2D(64,
+    (config.first_layer_conv_width, config.first_layer_conv_height),
+    #Only the first layer needs to specify input shape...             
+    input_shape=(28, 28,1),
+    #This next line is how you add "ZERO PADDING". Can help with model performance. 
+    padding="same",
+    activation='relu'))
+#Probably want to add pooling here...
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+#Second layer
 model.add(Conv2D(32,
     (config.first_layer_conv_width, config.first_layer_conv_height),
-    input_shape=(28, 28,1),
+    padding="same",
     activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(config.dropout))
+
+
 model.add(Flatten())
 model.add(Dense(config.dense_layer_size, activation='relu'))
 model.add(Dense(num_classes, activation='softmax'))
